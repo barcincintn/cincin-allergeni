@@ -7,100 +7,90 @@
     <title>Registro Allergeni Completo - Bar Cin Cin</title>
     <style>
         :root { --primary: #d81b60; }
-        body { font-size: 0.8rem; background-color: #f4f4f9; padding: 10px; }
+        body { font-size: 0.85rem; background-color: #f4f4f9; padding: 20px; }
         h1, h2 { text-align: center; color: #333; margin-bottom: 0.5rem; }
-        h2 { font-size: 1.2rem; margin-bottom: 1.5rem; margin-top: -1rem; }
+        h2 { font-size: 1.2rem; margin-bottom: 2rem; margin-top: -0.5rem; }
 
         .table-container { 
             overflow-x: auto; 
             background: white; 
-            padding: 0.5rem; 
+            padding: 1rem; 
             border-radius: 8px; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
         }
         
         table { width: 100%; border-collapse: collapse; border: 1px solid #ccc; }
         
         th, td { 
             border: 1px solid #ccc !important; 
-            padding: 8px 4px !important; 
+            padding: 12px 8px !important; 
             text-align: center;
             vertical-align: middle !important;
         }
 
-        th { background: #f9f9f9; height: 140px; }
-
-        .header-content {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            width: 100%;
-        }
-
-        .vertical-text {
-            writing-mode: vertical-rl;
-            transform: rotate(180deg);
-            white-space: nowrap;
-            display: inline-block;
+        /* Intestazioni allergeni orizzontali e larghe */
+        th { 
+            background: #f1f1f1; 
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            min-width: 80px; /* Colonne allergeni più larghe */
         }
 
         th.dish-name { 
-            height: auto;
-            writing-mode: horizontal-tb; 
             text-align: left; 
-            min-width: 180px; 
-            font-size: 0.85rem; 
+            min-width: 220px; /* Colonna piatti più larga */
+            font-size: 0.9rem;
         }
 
         td.dish-name { text-align: left !important; font-weight: bold; background: #fff; }
         
-        .mark { color: #e53935; font-weight: bold; font-size: 1.2rem; line-height: 1; }
-        .trace { color: #ff9800; font-weight: bold; font-size: 1rem; line-height: 1; }
-        .frozen-label { color: #0288d1; font-weight: bold; margin-left: 4px; }
+        .mark { color: #e53935; font-weight: bold; font-size: 1.3rem; line-height: 1; }
+        .trace { color: #ff9800; font-weight: bold; font-size: 1.1rem; line-height: 1; }
+        .frozen-label { color: #0288d1; font-weight: bold; margin-left: 5px; }
         
         .categoria-row { 
-            background: #eee !important; 
+            background: #444 !important; 
+            color: #fff !important;
             font-weight: bold; 
             text-align: left !important; 
-            padding-left: 10px !important; 
+            padding-left: 15px !important;
+            text-transform: uppercase;
         }
         
-        /* LEGENDA CON RIGHE PROPRIE - ANTIAVVOLGIMENTO */
+        /* Legenda verticale con righe proprie */
         .legend { 
-            font-size: 0.75rem; 
-            margin-top: 2rem; 
-            padding: 1rem; 
+            font-size: 0.8rem; 
+            margin-top: 2.5rem; 
+            padding: 1.2rem; 
             background: #fff; 
             border-radius: 8px; 
-            border-left: 5px solid var(--primary);
-            box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+            border-left: 6px solid var(--primary);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .legend-list {
             display: flex;
-            flex-direction: column; /* Forza una riga sotto l'altra */
-            gap: 10px; 
-            overflow-x: auto; /* Permette lo scroll laterale se il testo è troppo lungo */
+            flex-direction: column;
+            gap: 12px;
         }
 
         .legend-item {
             display: flex;
             align-items: center;
-            white-space: nowrap; /* Impedisce al testo di andare a capo */
-            flex-shrink: 0;
+            white-space: nowrap;
         }
         
-        .legend-item span { min-width: 25px; text-align: center; }
-        .legend-item b { margin-left: 5px; }
+        .legend-item span { min-width: 30px; text-align: center; display: inline-block; }
+        .legend-item b { margin-left: 8px; font-weight: 600; }
 
         .legal-notice {
-            margin-top: 15px;
-            padding-top: 10px;
+            margin-top: 20px;
+            padding-top: 15px;
             border-top: 1px solid #eee;
             font-style: italic;
-            font-size: 0.7rem;
-            color: #666;
+            font-size: 0.75rem;
+            color: #555;
         }
     </style>
 </head>
@@ -121,33 +111,34 @@
         </div>
 
         <footer class="legend">
-            <p style="margin-bottom: 12px;"><strong>Legenda:</strong></p>
+            <p style="margin-bottom: 15px;"><strong>Legenda simboli:</strong></p>
             <div class="legend-list">
                 <div class="legend-item">
                     <span class="mark">X</span> : <b>Ingrediente presente</b>
                 </div>
                 <div class="legend-item">
-                    <span class="trace">T</span> : <b>Possibili tracce</b>
+                    <span class="trace">T</span> : <b>Possibili tracce (contaminazione crociata)</b>
                 </div>
                 <div class="legend-item">
                     <span class="frozen-label">*</span> : <b>Prodotto surgelato all'origine</b>
                 </div>
             </div>
             <div class="legal-notice">
-                In conformità al D.Lgs. 231/2017 e Reg. UE 1169/2011. Consultare il personale per informazioni.
+                In conformità al D.Lgs. 231/2017 e Reg. UE 1169/2011. Le informazioni possono subire variazioni, consultare il personale di servizio in caso di dubbi.
             </div>
         </footer>
     </main>
 
     <script>
+        // Lista allergeni senza emoji e per visualizzazione orizzontale
         const allergeniLista = [
-            { id: 'glu', label: '🌾 Glutine' }, { id: 'cro', label: '🦞 Crostacei' },
-            { id: 'uov', label: '🥚 Uova' }, { id: 'pes', label: '🐟 Pesce' },
-            { id: 'ara', label: '🥜 Arachidi' }, { id: 'soi', label: '🫘 Soia' },
-            { id: 'lat', label: '🥛 Latte' }, { id: 'gus', label: '🌳 Frutta guscio' },
-            { id: 'sed', label: '🌱 Sedano' }, { id: 'sen', label: '🟡 Senape' },
-            { id: 'ses', label: '🥯 Sesamo' }, { id: 'sol', label: '🧪 Solfiti' },
-            { id: 'lup', label: '🌸 Lupini' }, { id: 'mol', label: '🐙 Molluschi' }
+            { id: 'glu', label: 'Glutine' }, { id: 'cro', label: 'Crostacei' },
+            { id: 'uov', label: 'Uova' }, { id: 'pes', label: 'Pesce' },
+            { id: 'ara', label: 'Arachidi' }, { id: 'soi', label: 'Soia' },
+            { id: 'lat', label: 'Latte' }, { id: 'gus', label: 'Frutta guscio' },
+            { id: 'sed', label: 'Sedano' }, { id: 'sen', label: 'Senape' },
+            { id: 'ses', label: 'Sesamo' }, { id: 'sol', label: 'Solfiti' },
+            { id: 'lup', label: 'Lupini' }, { id: 'mol', label: 'Molluschi' }
         ];
 
         const prodotti = [
@@ -191,12 +182,14 @@
         const headerRow = document.getElementById('header-row');
         const bodyTabella = document.getElementById('body-tabella');
 
+        // Generazione Header orizzontale
         allergeniLista.forEach(a => {
             const th = document.createElement('th');
-            th.innerHTML = `<div class="header-content"><span class="vertical-text">${a.label}</span></div>`;
+            th.textContent = a.label;
             headerRow.appendChild(th);
         });
 
+        // Generazione Righe
         prodotti.forEach(p => {
             const tr = document.createElement('tr');
             if (p.cat) {
