@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <title>Registro Allergeni Completo - Cin-Cin</title>
+    <style>
+        :root { --primary: #d81b60; }
+        body { font-size: 0.8rem; background-color: #f4f4f9; }
+        h1 { text-align: center; margin-top: 1rem; color: #333; }
+        h2 { text-align: center; margin-top:-2rem; color: #333; }
+
+        .table-container { overflow-x: auto; background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        table { width: 100%; border-collapse: collapse; }
+        th { writing-mode: vertical-lr; transform: rotate(180deg); white-space: nowrap; padding: 15px 5px !important; text-align: center; font-size: 0.7rem; background: #f9f9f9; }
+        th.dish-name { writing-mode: horizontal-tb; transform: none; text-align: left; vertical-align: bottom; min-width: 180px; font-size: 0.85rem; }
+        td { text-align: center; border-bottom: 1px solid #f0f0f0; padding: 4px !important; }
+        td.dish-name { text-align: left; font-weight: bold; }
+        .mark { color: #e53935; font-weight: bold; font-size: 1.1rem; }
+        .trace { color: #ff9800; font-weight: bold; font-size: 0.8rem; }
+        .frozen-label { color: #0288d1; font-weight: bold; margin-left: 4px; }
+        .categoria-row { background: #eee !important; font-weight: bold; text-align: left !important; color: #333; padding-left: 10px !important; }
+        .legend { font-size: 0.75rem; margin-top: 1.5rem; padding: 1rem; background: #fff; border-radius: 5px; border-left: 5px solid var(--primary); }
+    </style>
+</head>
+<body>
+    <main class="container-fluid">
+        <h1>Bar Cin CIn </h1>
+        <h2>Registro Ufficiale degli Allergeni</h2>
+        <div class="table-container">
+            <table id="tabella-allergeni">
+                <thead>
+                    <tr id="header-row">
+                        <th class="dish-name">Piatto / Prodotto</th>
+                        </tr>
+                </thead>
+                <tbody id="body-tabella">
+                    </tbody>
+            </table>
+        </div>
+
+        <footer class="legend">
+            <p><strong>Note Legali e Legenda:</strong></p>
+            <ul>
+                <li><span class="mark">X</span> : <strong>Ingrediente presente</strong> </li>
+                <li><span class="trace">T</span> : <strong>Possibili tracce</strong> (Dichiarate dal produttore o contaminazione in cucina).</li>
+                <li><span class="frozen-label">*</span> : <strong>Prodotto surgelato</strong> all'origine.</li>
+            </ul>
+            <p><em>In conformità al D.Lgs. 231/2017 e Reg. UE 1169/2011.</em></p>
+        </footer>
+    </main>
+
+    <script>
+        const allergeniLista = [
+            { id: 'glu', label: '🌾 Glutine' }, { id: 'cro', label: '🦞 Crostacei' },
+            { id: 'uov', label: '🥚 Uova' }, { id: 'pes', label: '🐟 Pesce' },
+            { id: 'ara', label: '🥜 Arachidi' }, { id: 'soi', label: '🫘 Soia' },
+            { id: 'lat', label: '🥛 Latte' }, { id: 'gus', label: '🌳 Frutta guscio' },
+            { id: 'sed', label: '🌱 Sedano' }, { id: 'sen', label: '🟡 Senape' },
+            { id: 'ses', label: '🥯 Sesamo' }, { id: 'sol', label: '🧪 Solfiti' },
+            { id: 'lup', label: '🌸 Lupini' }, { id: 'mol', label: '🐙 Molluschi' }
+        ];
+
+        const prodotti = [
+            { cat: "ANTIPASTI" },
+            { nome: "Tortel di patate con salumi", surgelato: true, lat: 'X' },
+            { nome: "Tagliere di salumi e formaggi", lat: 'X' },
+            { nome: "Fritto Misto Cin-Cin", surgelato: true, glu: 'X', uov: 'T', soi: 'T', lat: 'X', sen: 'T' },
+
+            { cat: "PRIMI PIATTI" },
+            { nome: "Pappardelle ai funghi", surgelato: true, glu: 'X', uov: 'X', lat: 'X', soi: 'T', sen: 'T' },
+            { nome: "Caserecce al pesto", surgelato: true, glu: 'X', uov: 'X', lat: 'X', soi: 'T', sen: 'T' },
+            { nome: "Spaghetti al pomodoro", surgelato: true, glu: 'X', uov: 'T', soi: 'T', lat: 'T', sen: 'T' },
+            { nome: "Lasagne al ragù", surgelato: true, glu: 'X', uov: 'X', lat: 'X', sed: 'X', soi: 'T', sen: 'T' },
+            { nome: "Cannelloni ricotta e spinaci", surgelato: true, glu: 'X', uov: 'X', lat: 'X', soi: 'T', sen: 'T' },
+
+            { cat: "PANINI (Buns Lowcarb)" },
+            { nome: "Bresaola e Grana", glu: 'X', lat: 'X', sol: 'X', soi: 'T', sen: 'T', ses: 'T', gus: 'T' },
+            { nome: "Crudo e Burrata", glu: 'X', lat: 'X', sol: 'X', soi: 'T', sen: 'T', ses: 'T', gus: 'T' },
+            { nome: "Speck e Burrata", glu: 'X', lat: 'X', sol: 'X', soi: 'T', sen: 'T', ses: 'T', gus: 'T' },
+            { nome: "Vegetariano", glu: 'X', lat: 'X', sol: 'X', soi: 'T', sen: 'T', ses: 'T', gus: 'T' },
+            { nome: "Burrata e Pistacchio", glu: 'X', lat: 'X', gus: 'X', sol: 'X', soi: 'T', sen: 'T', ses: 'T' },
+
+            { cat: "PIZZE" },
+            { nome: "Pizza Crudo / Piccante", glu: 'X', lat: 'X' },
+            { nome: "Pizza Tirolese", glu: 'X', lat: 'X' },
+
+            { cat: "SECONDI E STUZZICHINI" },
+            { nome: "Cotoletta di pollo con patatine", surgelato: true, glu: 'X', uov: 'X', lat: 'X', soi: 'T', sen: 'T' },
+            { nome: "Burger con patatine", surgelato: true, glu: 'X', lat: 'X', soi: 'T' },
+            { nome: "Polpettine di melanzane", surgelato: true, glu: 'X', uov: 'X', lat: 'X', soi: 'T', sen: 'T' },
+            { nome: "Patatine fritte corte", surgelato: true },
+            { nome: "Anelli di cipolla", surgelato: true, glu: 'X' },
+            { nome: "Alghette", surgelato: true, glu: 'X', cro: 'T', uov: 'T', pes: 'T', soi: 'T', lat: 'T', gus: 'T', sed: 'T', sen: 'T', mol: 'T' },
+            { nome: "Rösti", surgelato: true },
+
+            { cat: "DOLCI" },
+            { nome: "Sacher", surgelato: true, glu: 'X', uov: 'X', lat: 'X', gus: 'X', soi: 'T' },
+            { nome: "Tiramisù", surgelato: true, glu: 'X', uov: 'X', lat: 'X' }
+        ];
+
+        const headerRow = document.getElementById('header-row');
+        const bodyTabella = document.getElementById('body-tabella');
+
+        allergeniLista.forEach(a => {
+            const th = document.createElement('th');
+            th.textContent = a.label;
+            headerRow.appendChild(th);
+        });
+
+        prodotti.forEach(p => {
+            const tr = document.createElement('tr');
+            if (p.cat) {
+                const td = document.createElement('td');
+                td.className = "categoria-row";
+                td.colSpan = allergeniLista.length + 1;
+                td.textContent = p.cat;
+                tr.appendChild(td);
+            } else {
+                const tdNome = document.createElement('td');
+                tdNome.className = "dish-name";
+                tdNome.innerHTML = p.nome + (p.surgelato ? '<span class="frozen-label">*</span>' : '');
+                tr.appendChild(tdNome);
+
+                allergeniLista.forEach(a => {
+                    const td = document.createElement('td');
+                    const val = p[a.id] || '';
+                    if (val === 'X') td.innerHTML = '<span class="mark">X</span>';
+                    else if (val === 'T') td.innerHTML = '<span class="trace">T</span>';
+                    tr.appendChild(td);
+                });
+            }
+            bodyTabella.appendChild(tr);
+        });
+    </script>
+</body>
+</html>
