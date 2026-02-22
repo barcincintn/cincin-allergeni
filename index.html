@@ -8,79 +8,40 @@
     <style>
         :root { --primary: #d81b60; }
         body { font-size: 0.8rem; background-color: #f4f4f9; }
-        h1 { text-align: center; margin-top: 1rem; color: #333; margin-bottom: 0.5rem; }
-        h2 { text-align: center; color: #333; font-size: 1.2rem; margin-bottom: 1.5rem; }
-
-        .table-container { 
-            overflow-x: auto; 
-            background: white; 
-            padding: 0.5rem; 
-            border-radius: 8px; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
-        }
-        
+        h1 { text-align: center; margin-top: 1rem; color: var(--primary); }
+        .table-container { overflow-x: auto; background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         table { width: 100%; border-collapse: collapse; }
-        
-        /* Correzione titoli allergeni per cellulare */
-        th { 
-            white-space: nowrap; 
-            padding: 10px 2px !important; 
-            text-align: center; 
-            font-size: 0.7rem; 
-            background: #f9f9f9;
-            height: 120px; /* Altezza fissa per contenere il testo verticale */
-            vertical-align: middle;
-        }
-
-        .vertical-text {
-            writing-mode: vertical-rl;
-            transform: rotate(180deg); /* Ruota per leggere dal basso verso l'alto senza specchiare */
-            display: inline-block;
-            text-align: left;
-        }
-
-        th.dish-name { 
-            height: auto;
-            writing-mode: horizontal-tb; 
-            transform: none; 
-            text-align: left; 
-            vertical-align: bottom; 
-            min-width: 160px; 
-            font-size: 0.85rem; 
-        }
-
+        th { writing-mode: vertical-lr; transform: rotate(180deg); white-space: nowrap; padding: 15px 5px !important; text-align: center; font-size: 0.7rem; background: #f9f9f9; }
+        th.dish-name { writing-mode: horizontal-tb; transform: none; text-align: left; vertical-align: bottom; min-width: 180px; font-size: 0.85rem; }
         td { text-align: center; border-bottom: 1px solid #f0f0f0; padding: 4px !important; }
         td.dish-name { text-align: left; font-weight: bold; }
-        
         .mark { color: #e53935; font-weight: bold; font-size: 1.1rem; }
         .trace { color: #ff9800; font-weight: bold; font-size: 0.8rem; }
         .frozen-label { color: #0288d1; font-weight: bold; margin-left: 4px; }
         .categoria-row { background: #eee !important; font-weight: bold; text-align: left !important; color: #333; padding-left: 10px !important; }
-        
         .legend { font-size: 0.75rem; margin-top: 1.5rem; padding: 1rem; background: #fff; border-radius: 5px; border-left: 5px solid var(--primary); }
     </style>
 </head>
 <body>
     <main class="container-fluid">
-        <h1>Bar Cin Cin</h1>
-        <h2>Registro Ufficiale degli Allergeni</h2>
-        
+        <h1>🍽️ Registro Ufficiale degli Allergeni</h1>
         <div class="table-container">
             <table id="tabella-allergeni">
                 <thead>
                     <tr id="header-row">
                         <th class="dish-name">Piatto / Prodotto</th>
-                    </tr>
+                        </tr>
                 </thead>
-                <tbody id="body-tabella"></tbody>
+                <tbody id="body-tabella">
+                    </tbody>
             </table>
         </div>
 
         <footer class="legend">
             <p><strong>Note Legali e Legenda:</strong></p>
             <ul>
-                <li><span class="mark">X</span> : <strong>Ingrediente presente</strong></li>
-                <li><span class="trace">T</span> : <strong>Possibili tracce</strong> (Dichiarate dal produttore o contaminazione in cucina).</li>
+                <li><span class="mark">X</span> : <strong>Ingrediente presente</strong> (Reg. UE 1169/11).</li>
+                <li><span class="trace">T</span> : <strong>Possibili tracce</strong> (Dichiarate dal produttore o cross-contamination).</li>
                 <li><span class="frozen-label">*</span> : <strong>Prodotto surgelato</strong> all'origine.</li>
             </ul>
             <p><em>In conformità al D.Lgs. 231/2017 e Reg. UE 1169/2011.</em></p>
@@ -98,27 +59,30 @@
             { id: 'lup', label: '🌸 Lupini' }, { id: 'mol', label: '🐙 Molluschi' }
         ];
 
-        // Dati prodotti (abbreviati per brevità nel codice, rimangono quelli della chat)
         const prodotti = [
             { cat: "ANTIPASTI" },
             { nome: "Tortel di patate con salumi", surgelato: true, lat: 'X' },
             { nome: "Tagliere di salumi e formaggi", lat: 'X' },
             { nome: "Fritto Misto Cin-Cin", surgelato: true, glu: 'X', uov: 'T', soi: 'T', lat: 'X', sen: 'T' },
+
             { cat: "PRIMI PIATTI" },
             { nome: "Pappardelle ai funghi", surgelato: true, glu: 'X', uov: 'X', lat: 'X', soi: 'T', sen: 'T' },
             { nome: "Caserecce al pesto", surgelato: true, glu: 'X', uov: 'X', lat: 'X', soi: 'T', sen: 'T' },
             { nome: "Spaghetti al pomodoro", surgelato: true, glu: 'X', uov: 'T', soi: 'T', lat: 'T', sen: 'T' },
             { nome: "Lasagne al ragù", surgelato: true, glu: 'X', uov: 'X', lat: 'X', sed: 'X', soi: 'T', sen: 'T' },
             { nome: "Cannelloni ricotta e spinaci", surgelato: true, glu: 'X', uov: 'X', lat: 'X', soi: 'T', sen: 'T' },
+
             { cat: "PANINI (Buns Lowcarb)" },
             { nome: "Bresaola e Grana", glu: 'X', lat: 'X', sol: 'X', soi: 'T', sen: 'T', ses: 'T', gus: 'T' },
             { nome: "Crudo e Burrata", glu: 'X', lat: 'X', sol: 'X', soi: 'T', sen: 'T', ses: 'T', gus: 'T' },
             { nome: "Speck e Burrata", glu: 'X', lat: 'X', sol: 'X', soi: 'T', sen: 'T', ses: 'T', gus: 'T' },
             { nome: "Vegetariano", glu: 'X', lat: 'X', sol: 'X', soi: 'T', sen: 'T', ses: 'T', gus: 'T' },
             { nome: "Burrata e Pistacchio", glu: 'X', lat: 'X', gus: 'X', sol: 'X', soi: 'T', sen: 'T', ses: 'T' },
+
             { cat: "PIZZE" },
             { nome: "Pizza Crudo / Piccante", glu: 'X', lat: 'X' },
             { nome: "Pizza Tirolese", glu: 'X', lat: 'X' },
+
             { cat: "SECONDI E STUZZICHINI" },
             { nome: "Cotoletta di pollo con patatine", surgelato: true, glu: 'X', uov: 'X', lat: 'X', soi: 'T', sen: 'T' },
             { nome: "Burger con patatine", surgelato: true, glu: 'X', lat: 'X', soi: 'T' },
@@ -127,6 +91,7 @@
             { nome: "Anelli di cipolla", surgelato: true, glu: 'X' },
             { nome: "Alghette", surgelato: true, glu: 'X', cro: 'T', uov: 'T', pes: 'T', soi: 'T', lat: 'T', gus: 'T', sed: 'T', sen: 'T', mol: 'T' },
             { nome: "Rösti", surgelato: true },
+
             { cat: "DOLCI" },
             { nome: "Sacher", surgelato: true, glu: 'X', uov: 'X', lat: 'X', gus: 'X', soi: 'T' },
             { nome: "Tiramisù", surgelato: true, glu: 'X', uov: 'X', lat: 'X' }
@@ -135,14 +100,12 @@
         const headerRow = document.getElementById('header-row');
         const bodyTabella = document.getElementById('body-tabella');
 
-        // Generazione Header con correzione rotazione
         allergeniLista.forEach(a => {
             const th = document.createElement('th');
-            th.innerHTML = `<span class="vertical-text">${a.label}</span>`;
+            th.textContent = a.label;
             headerRow.appendChild(th);
         });
 
-        // Generazione Righe
         prodotti.forEach(p => {
             const tr = document.createElement('tr');
             if (p.cat) {
